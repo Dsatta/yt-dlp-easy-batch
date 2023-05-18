@@ -1,7 +1,7 @@
 # yt-dlp-easy-batch
 Easy batch file for yt-dlp
 
-Simple script i made to download stuff with yt-dlp 
+Simple script i made to download stuff with yt-dlp (The code sucks a lot i'm sorry)
 
 Requires yt-dlp and ffmpeg in the same folder as the batch script or in your %PATH%<br>
 (Both can be easily downloaded from their respective websites or you can use scoop)
