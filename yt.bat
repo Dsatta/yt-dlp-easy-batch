@@ -55,18 +55,35 @@ goto Video_Url
 :Audio_Url
 
 set /p VALUE=Channel folder? (Y/N) 
+set /p CHAP=Is the video multiple songs divided by chapters? (Y/N)
 if /I %VALUE%==Y (
-	yt-dlp --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(channel)s/%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" %URL%
-	echo DONE!
-	pause
-	goto Start
+	if /I %CHAP%==Y (
+		yt-dlp --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(channel)s/%%(title)s/%%(section_number)s - %%(section_title)s.%%(ext)s" %URL%	
+		echo DONE!
+		pause
+		goto Start
+	)
+	if /I %CHAP%==N (
+		yt-dlp --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(channel)s/%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" %URL%
+		echo DONE!
+		pause
+		goto Start
+	)
 )
 
 if /I %VALUE%==N (
-	yt-dlp --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" %URL%
-	echo DONE!
-	pause
-	goto Start
+	if /I %CHAP%==Y (
+		yt-dlp --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(title)s/%%(section_number)s - %%(section_title)s.%%(ext)s"	%URL%
+		echo DONE!
+		pause
+		goto Start
+	)
+	if /I %CHAP%==N (
+		yt-dlp --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" %URL%
+		echo DONE!
+		pause
+		goto Start
+	)
 )
 
 echo idiot
@@ -76,14 +93,14 @@ goto Audio_Url
 
 set /p VALUE=Channel folder? (Y/N) 
 if /I %VALUE%==Y (
-	yt-dlp --batch-file youtube.txt --output "%%(channel|)s/%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" %URL%
+	yt-dlp --batch-file youtube.txt --output "%%(channel|)s/%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" 
 	echo DONE!
 	pause
 	goto Start
 )
 
 if /I %VALUE%==N (
-	yt-dlp --batch-file youtube.txt --output "%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" %URL%
+	yt-dlp --batch-file youtube.txt --output "%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" 
 	echo DONE!
 	pause
 	goto Start
@@ -94,19 +111,36 @@ goto Video_TXT
 
 :Audio_TXT
 
-set /p VALUE=Channel folder? (Y/N)
+set /p VALUE=Channel folder? (Y/N) 
+set /p CHAP=Is the video multiple songs divided by chapters? (Y/N)
 if /I %VALUE%==Y (
-	yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(channel)s/%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" %URL%
-	echo DONE!
-	pause
-	goto Start
+	if /I %CHAP%==Y (
+		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(channel)s/%%(title)s/%%(section_number)03d. %%(section_title)s.%%(ext)s" 
+		echo DONE!
+		pause
+		goto Start
+	)
+	if /I %CHAP%==N (
+		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(channel)s/%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" 
+		echo DONE!
+		pause
+		goto Start
+	)
 )
 
 if /I %VALUE%==N (
-	yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" %URL%
-	echo DONE!
-	pause
-	goto Start
+	if /I %CHAP%==Y (
+		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(title)s/%%(section_number)03d. %%(section_title)s.%%(ext)s"	
+		echo DONE!
+		pause
+		goto Start
+	)
+	if /I %CHAP%==N (
+		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --output "%%(playlist_title|)s/%%(playlist_index& - |)s%%(title)s.%%(ext)s" 
+		echo DONE!
+		pause
+		goto Start
+	)
 )
 
 echo idiot
@@ -195,13 +229,13 @@ set /p VALUE=Channel folder? (Y/N)
 set /p VALUE_COM=Write comments? (Y/N)
 if /I %VALUE%==Y (
 	if /I %VALUE_COM%==Y (
-		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-comments --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(channel|)s/%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" %URL%
+		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-comments --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(channel|)s/%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" 
 		echo DONE!
 		pause
 		goto Start
 	)
 	if /I %VALUE_COM%==N (
-		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(channel|)s/%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" %URL%
+		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(channel|)s/%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" 
 		echo DONE!
 		pause
 		goto Start
@@ -210,13 +244,13 @@ if /I %VALUE%==Y (
 
 if /I %VALUE%==N (
 	if /I %VALUE_COM%==Y (
-		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-comments --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" %URL%
+		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-comments --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" 
 		echo DONE!
 		pause
 		goto Start
 	)
 	if /I %VALUE_COM%==N (
-		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" %URL%
+		yt-dlp --batch-file youtube.txt --download-archive ultimate_archive.txt --write-description --write-info-json --embed-info-json --embed-metadata --write-thumbnail --embed-thumbnail --convert-thumbnails jpg --write-subs --embed-subs --embed-chapters --output "%%(playlist_title|)s/%%(playlist_index& -|)s%%(title)s/%%(title)s_[%%(id)s].%%(ext)s" --format-sort "ext" 
 		echo DONE!
 		pause
 		goto Start
