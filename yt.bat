@@ -115,7 +115,7 @@ set /p VALUE=Channel folder? (Y/N)
 set /p CHAP=Is the video multiple songs divided by chapters? (Y/N)
 if /I %VALUE%==Y (
 	if /I %CHAP%==Y (
-		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(channel)s/%%(title)s/%%(section_number)03d. %%(section_title)s.%%(ext)s" 
+		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(channel)s/%%(title)s/%%(section_number) - %%(section_title)s.%%(ext)s" 
 		echo DONE!
 		pause
 		goto Start
@@ -130,7 +130,7 @@ if /I %VALUE%==Y (
 
 if /I %VALUE%==N (
 	if /I %CHAP%==Y (
-		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(title)s/%%(section_number)03d. %%(section_title)s.%%(ext)s"	
+		yt-dlp --batch-file youtube.txt --embed-metadata --embed-thumbnail --convert-thumbnails jpg --extract-audio --audio-format mp3 --audio-quality 0 --split-chapters --exec del -o "chapter:%%(title)s/%%(section_number) - %%(section_title)s.%%(ext)s"	
 		echo DONE!
 		pause
 		goto Start
