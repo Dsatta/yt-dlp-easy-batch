@@ -12,7 +12,7 @@ Options are pretty self explanatory but
   <li> Downloads video from video/playlist/channel in mp4 with the best quality in a folder named as the playlist(or not if it isn't a playlist), if it's a playlist it also includes the playlist index in the filename
     <li> Downloads audio from video/playlist/channel in mp3 with metadata added and thumbnail (you might get wack metadata if the uploader is a third party), same folder structure as above
       <ul>
-        <li> You can also divide a long album/collection of songs uploaded as a single video divided by chapters!
+        <li> You can also divide a long album/collection of songs uploaded as a single video divided by chapters! (metadata not available)
       </ul>
       <li> Same as 1 but reads the links from youtube.txt
         <li> Same as 2 but reads the links from youtube.txt
